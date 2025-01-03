@@ -5,10 +5,7 @@ RATE_PER_ZIPCODE = 100
 
 def lambda_handler(event, context):
     try:
-        print("Event:", event)
-
         body = json.loads(event['body']) if isinstance(event.get('body'), str) else event.get('body', {})
-        print("Body:", body)
 
         from_zip = body['from_zip']
         to_zip = body['to_zip']
@@ -34,7 +31,10 @@ def lambda_handler(event, context):
         return {
             'statusCode': 200,
             'body': json.dumps({
-                'shipping_cost': shipping_cost,
+                'code': 200,
+                'data': {
+                    'shipping_cost': shipping_cost,
+                },
                 'message': 'Shipping cost calculated successfully'
             }),
             'headers': {
