@@ -11,20 +11,9 @@ Resources:
       Runtime: python3.9
       Timeout: 30
       MemorySize: 128
-      Layers:
-        - !Ref DependenciesLayer
       Events:
         ApiEvent:
           Type: Api
           Properties:
             Path: /shipping-cost
             Method: post
-
-  DependenciesLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      LayerName: shipping-price-calculator-dependencies
-      Description: Dependencies for shipping-price calculator
-      ContentUri: dependencies/
-      CompatibleRuntimes:
-        - python3.9
