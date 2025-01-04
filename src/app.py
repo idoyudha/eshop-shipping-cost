@@ -1,4 +1,5 @@
 import json
+from http import HTTPStatus
 
 # rate in usd per zipcode distance
 RATE_PER_ZIPCODE = 100
@@ -12,7 +13,7 @@ def lambda_handler(event, context):
 
         if not from_zip or not to_zip:
             return {
-                'statusCode': 400,
+                'statusCode': HTTPStatus.BAD_REQUEST,
                 'body': json.dumps({
                     'message': 'Invalid zip codes: from_zip and to_zip are required'
                 })
@@ -20,7 +21,7 @@ def lambda_handler(event, context):
 
         if int(to_zip) < int(from_zip):
             return {
-                'statusCode': 400,
+                'statusCode': HTTPStatus.BAD_REQUEST,
                 'body': json.dumps({
                     'message': 'Invalid zip codes: to_zip must be greater than from_zip'
                 })
@@ -29,7 +30,7 @@ def lambda_handler(event, context):
         shipping_cost = calculate_shipping_cost(from_zip, to_zip)
 
         return {
-            'statusCode': 200,
+            'statusCode': HTTPStatus.OK,
             'body': json.dumps({
                 'code': 200,
                 'data': {
@@ -44,7 +45,7 @@ def lambda_handler(event, context):
     
     except KeyError as e:
         return {
-            'statusCode': 400,
+            'statusCode': HTTPStatus.BAD_REQUEST,
             'body': json.dumps({
                 'message': f'Missing required field: {str(e)}'
             }),
@@ -55,7 +56,7 @@ def lambda_handler(event, context):
     
     except Exception as e:
         return {
-            'statusCode': 500,
+            'statusCode': HTTPStatus.INTERNAL_SERVER_ERROR,
             'body': json.dumps({
                 'message': 'Internal server error'
             }),
