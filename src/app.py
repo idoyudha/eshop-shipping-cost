@@ -2,7 +2,7 @@ import json
 from http import HTTPStatus
 
 # rate in usd per zipcode distance
-RATE_PER_ZIPCODE = 100
+RATE_PER_ZIPCODE = 2
 
 def lambda_handler(event, context):
     try:
