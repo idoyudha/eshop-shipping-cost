@@ -19,14 +19,6 @@ def lambda_handler(event, context):
                 })
             }
 
-        if int(to_zip) < int(from_zip):
-            return {
-                'statusCode': HTTPStatus.BAD_REQUEST,
-                'body': json.dumps({
-                    'message': 'Invalid zip codes: to_zip must be greater than from_zip'
-                })
-            }
-
         shipping_cost = calculate_shipping_cost(from_zip, to_zip)
 
         return {
